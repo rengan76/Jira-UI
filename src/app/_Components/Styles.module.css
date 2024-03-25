@@ -1,0 +1,17 @@
+.container {
+
+   margin-top: 70px;
+}
+
+.wrapper {
+   border: 1px solid red;
+   width: 50%;
+   margin: 0 auto;
+   padding: 10px;
+   background: '#eeeee';
+   border-radius: 20px;
+   display: flex;
+   justify-content: center;
+   gap: 30px;
+   align-items: center;
+}
