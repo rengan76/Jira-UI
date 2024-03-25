@@ -1,79 +1,62 @@
-import { NextResponse } from "next/server"
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 export const POST = async (req, res) => {
-   const body1 = await req.json()
-
-   let body = {
-      "fields": {
-         "customfield_10009": "Copy - New Brand phase 1",
-         "project": {
-            "key": "CP"
-         },
-         "summary": body1.issuetype,
-         "description": body1.issuetype,
-         "issuetype": {
-            "name": 'Epic'
-         }
-      }
-   }
-   const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.BEARER_TOKEN}`
-    }
-
    try {
+      const headers = {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${process.env.BEARER_TOKEN}`,
+      };
 
-      const response = await axios.post(
-         `${process.env.API_URL}`, body, { headers }
-      );
-      console.log("response", response)
-      if (response.status === 201 || response.status === 200) {
-        console.log({ message: `Your Epic is created`, data: response.data });
-      } else {
-         console.log({ error: `Failed to create Epic` });
+      const epicBody = {
+         "fields": {
+            "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - Phase 1",
+            "project": {
+               "key": "CP"
+            },
+            "summary": 'Epic Summary',
+            "description": 'Epic Description',
+            "issuetype": {
+               "name": 'Epic'
+            }
+         }
+      };
+
+      const epicResponse = await axios.post(process.env.API_URL, epicBody, { headers });
+
+      if (epicResponse.status !== 201 && epicResponse.status !== 200) {
+         throw new Error('Failed to create Epic');
       }
-      // Array to store request bodies
-      const requestBodies = [];
+
+      const storyTickets = [];
 
       for (let i = 1; i < 3; i++) {
-         let body = {
+         const storyBody = {
             "fields": {
-                  "project": {
-                     "key": "CP"
-                  },
-                  "summary": 'Story ' + i,
-                  "description": 'Story ' + i,
-                  "issuetype": {
-                     "name": 'Story'
-                  }
+               "project": {
+                  "key": "CP"
+               },
+               "summary": 'Story ' + i,
+               "description": 'Story ' + i,
+               "issuetype": {
+                  "name": 'Story'
+               }
             }
          };
 
-         requestBodies.push(body); // Add the body to the array
-      }
+         const storyResponse = await axios.post(process.env.API_URL, storyBody, { headers });
 
-      // Function to make requests asynchronously
-      async function makeRequests() {
-         for (const body of requestBodies) {
-            try {
-                  await axios.post(`${process.env.API_URL}`, body, { headers });
-                  console.log('Request successful');
-            } catch (error) {
-                  console.error('Error making request:', error.message);
-            }
+         if (storyResponse.status !== 201 && storyResponse.status !== 200) {
+            throw new Error(`Failed to create Story ${i}`);
          }
+
+         storyTickets.push(storyResponse.data.key);
       }
 
-      await makeRequests(); // Call makeRequests asynchronously
-
-      // Return a response indicating success
-      return NextResponse.json({ message: 'Requests completed successfully' });
-
+      return NextResponse.json({ message: 'Tickets successfully created', data: { epicTicket: epicResponse.data.key, storyTickets } });
    } catch (error) {
-      return NextResponse.json({ 'Catch error': error });
+      console.error('Error:', error.message);
+      return NextResponse.json({ error: error.message });
    }
-
-}
-
+};
