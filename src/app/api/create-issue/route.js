@@ -54,4 +54,5 @@ export const POST = async (req, res) => {
    } catch (error) {
       return NextResponse.json({ 'Catch error': error });
    }
+
 }
