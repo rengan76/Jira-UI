@@ -23,9 +23,13 @@ const Create_Issue = () => {
          phase: userInput.phase,
          numTickets: userInput.numTickets
       }
+      const headers = {
+         'Content-Type': 'application/json'
+       };
+
       console.log("user input", userInput)
       try {
-         const res = await axios.post('http://localhost:3000/api/create-issue', body);
+         const res = await axios.post('http://localhost:3000/api/create-issue', body,  { headers });
          setTickets(res.data.data.storyTickets);
          console.log("Response", res);
         

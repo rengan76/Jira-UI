@@ -1,14 +1,19 @@
 import axios from "axios";
-import { NextResponse, json } from "next/server";
+import { json } from "next/server";
+import { NextResponse } from "next/server";
 
 export const POST = async (req, res) => {
    try {
       // Parse request body using next/server's json middleware
       const { body } = await json(req);
 
+         // Ensure that the body is not empty
+         if (!body) {
+            throw new Error('Request body is empty');
+         }
+
       // Now you can access the parsed body
       const { topic, phase, numTickets } = body;
-
 
       const headers = {
          'Accept': 'application/json',
@@ -18,7 +23,7 @@ export const POST = async (req, res) => {
 
       const epicBody = {
          "fields": {
-            "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - "+ phase,
+            "customfield_10009": "Copy - dd+ | [CM] New Brand: dd - "+ phase,
             "project": {
                "key": "CP"
             },
