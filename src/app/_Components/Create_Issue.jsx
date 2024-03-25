@@ -63,7 +63,7 @@ const Create_Issue = () => {
             <ul className={Styles.ticketUl}>
                {tickets.map((ticket, index) => (
                   <li className={Styles.ticketLi} key={index}>
-                  <a href={`https://jira.hilton.com/browse/${ticket}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`https://jira.xxx.com/browse/${ticket}`} target="_blank" rel="noopener noreferrer">
                     {ticket}
                   </a>
                 </li>
