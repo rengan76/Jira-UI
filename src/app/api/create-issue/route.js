@@ -4,26 +4,33 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req, res) => {
    try {
-      // Parse request body using next/server's json middleware
-      const { body } = await json(req);
 
-         // Ensure that the body is not empty
-         if (!body) {
-            throw new Error('Request body is empty');
-         }
+      // Read the raw request body
+    let body = '';
+    for await (const chunk of req.body) {
+      body += chunk;
+    }
 
-      // Now you can access the parsed body
-      const { topic, phase, numTickets } = body;
+    console.log("Raw request body:", body);
 
-      const headers = {
+    // Split the string into an array of character codes
+   const charCodes = body.split(",").map(Number);
+
+   // Convert the character codes to characters and join them into a string
+   const jsonString = String.fromCharCode(...charCodes);
+
+   // Parse the JSON string into a JavaScript object
+   const jsonObject = JSON.parse(jsonString);
+
+   const headers = {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
          'Authorization': `Bearer ${process.env.BEARER_TOKEN}`,
-      };
+   };
 
       const epicBody = {
          "fields": {
-            "customfield_10009": "Copy - dd+ | [CM] New Brand: dd - "+ phase,
+            "customfield_10009": "Copy - dd+ | [CM] New Brand: dd - "+ jsonObject.phase,
             "project": {
                "key": "CP"
             },
@@ -45,7 +52,7 @@ export const POST = async (req, res) => {
       }
 
 
-      for (let i = 1; i < numTickets; i++) {
+      for (let i = 1; i < jsonObject.numTickets; i++) {
          const storyBody = {
             "fields": {
                "project": {
