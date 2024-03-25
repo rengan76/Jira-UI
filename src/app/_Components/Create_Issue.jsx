@@ -4,19 +4,24 @@ import axios from 'axios';
 import Styles from './Styles.module.css';
 
 const Create_Issue = () => {
-   const [userInput, setUserInput] = useState('Brand');
+   const [userInput, setUserInput] = useState({ topic: '', phase: '', numTickets: '' });
    const [tickets, setTickets] = useState([]);
 
    const handleInput = (e) => {
-      const value = e.target.value;
+      const { name, value } = e.target;
       console.log("change value", value)
-      setUserInput(value);
+      setUserInput(prevState => ({
+         ...prevState,
+         [name]: value
+      }));
    }
 
    const handleEpic = async () => {
       debugger;
       const body = {
-         issuetype: userInput
+         topic: userInput.topic,
+         phase: userInput.phase,
+         numTickets: userInput.numTickets
       }
       console.log("user input", userInput)
       try {
@@ -32,11 +37,17 @@ const Create_Issue = () => {
       <div className={Styles.container}>
          <div className={Styles.wrapper}>
             <div className='flex gap-3 items-center'>
-               <label htmlFor="box">Epic :</label>
-               <select name="" id="" onChange={handleInput} style={{ background: 'black', color: 'white', padding: '5px', borderRadius: '10px' }}>
+               <select name="topic" onChange={handleInput} style={{ background: 'black', color: 'white', padding: '5px', borderRadius: '10px' }}>
+                  <option value="">Select Topic</option>
                   <option value="Brand">Brand</option>
                   <option value="Auto Complete">Auto Complete</option>
                </select>
+               <select name="phase" onChange={handleInput} style={{ background: 'black', color: 'white', padding: '5px', borderRadius: '10px' }}>
+                  <option value="">Select Phase</option>
+                  <option value="Phase_1">Phase 1</option>
+                  <option value="Phase_2">Phase 2</option>
+               </select>
+               Number of Tickets Needed <input type="text" name="numTickets" onChange={handleInput} style={{ background: 'black', color: 'white', padding: '5px', borderRadius: '10px', border: '1px solid #ccc' }} ></input>
             </div>
             <button className='w-30 border border-slate-500 bg-slate-600 text-white p-2 rounded-md' onClick={handleEpic}>Create Epic and Stories</button>
          </div>
@@ -47,7 +58,7 @@ const Create_Issue = () => {
             <h3 className={Styles.ticketHeader}>Tickets Created:</h3>
             <ul className={Styles.ticketUl}>
                {tickets.map((ticket, index) => (
-                  <li className={Styles.ticketLi} key={index}>{ticket}</li>
+                  <li className={Styles.ticketLi} key={index}>https://jira.hilton.com/browse/{ticket}</li>
                ))}
             </ul>
          </div>

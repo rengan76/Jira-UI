@@ -1,8 +1,15 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextResponse, json } from "next/server";
 
 export const POST = async (req, res) => {
    try {
+      // Parse request body using next/server's json middleware
+      const { body } = await json(req);
+
+      // Now you can access the parsed body
+      const { topic, phase, numTickets } = body;
+
+
       const headers = {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
@@ -11,7 +18,7 @@ export const POST = async (req, res) => {
 
       const epicBody = {
          "fields": {
-            "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - Phase 1",
+            "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - "+ phase,
             "project": {
                "key": "CP"
             },
@@ -33,7 +40,7 @@ export const POST = async (req, res) => {
       }
 
 
-      for (let i = 1; i < 3; i++) {
+      for (let i = 1; i < numTickets; i++) {
          const storyBody = {
             "fields": {
                "project": {
