@@ -4,10 +4,10 @@ import axios from "axios";
 export const POST = async (req, res) => {
    const body = {
       "inwardIssue": {
-         "key": "CP-10235"
+         "key": "CP-10"
       },
       "outwardIssue": {
-         "key": "CP-10235"
+         "key": "CP-10"
       },
       "type": {
          "name": "Epic"
