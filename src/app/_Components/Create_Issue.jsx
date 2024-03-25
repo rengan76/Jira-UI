@@ -33,7 +33,7 @@ const Create_Issue = () => {
                   <option value="Auto Complete">Auto Complete</option>
                </select>
             </div>
-            <button className='w-30 border border-slate-500 bg-slate-600 text-white p-2 rounded-md' onClick={handleEpic}>Create Epic</button>
+            <button className='w-30 border border-slate-500 bg-slate-600 text-white p-2 rounded-md' onClick={handleEpic}>Create Epic and Stories</button>
          </div>
 
       </div>

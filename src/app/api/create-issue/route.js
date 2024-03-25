@@ -6,8 +6,9 @@ export const POST = async (req, res) => {
 
    let body = {
       "fields": {
+         "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - Phase 1",
          "project": {
-            "key": "RP"
+            "key": "CP"
          },
          "summary": body1.issuetype,
          "description": body1.issuetype,
@@ -19,39 +20,60 @@ export const POST = async (req, res) => {
    const headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ZW1haWxAZXhhbXBsZS5jb206PGFwaV90b2tlbj4=',
-      'Cookie': 'atlassian.xsrf.token=4313b2204442a13eb3bf443cd6790bd277430009_lout'
-   }
+      'Authorization': `Bearer ${process.env.BEARER_TOKEN}`
+    }
 
    try {
 
       const response = await axios.post(
-         `https://team-muba.atlassian.net/rest/api/2/issue`, body, { headers }
+         `${process.env.API_URL}`, body, { headers }
       );
-      for (let i = 1; i < 6; i++) {
-         let body = {
-            "fields": {
-               "project": {
-                  "key": "RP"
-               },
-               "summary": 'Story ' + i,
-               "description": 'Story ' + i,
-               "issuetype": {
-                  "name": 'Story'
-               }
-            }
-         }
-         await axios.post(
-            `https://team-muba.atlassian.net/rest/api/2/issue`, body, { headers }
-         );
-      }
       console.log("response", response)
       if (response.status === 201 || response.status === 200) {
-         return NextResponse.json({ message: `Your Epic is created`, data: response.data });
+        console.log({ message: `Your Epic is created`, data: response.data });
       } else {
-         return NextResponse.json({ error: `Failed to create Epic` });
+         console.log({ error: `Failed to create Epic` });
       }
+      // Array to store request bodies
+      const requestBodies = [];
+
+      for (let i = 1; i < 3; i++) {
+         let body = {
+            "fields": {
+                  "project": {
+                     "key": "CP"
+                  },
+                  "summary": 'Story ' + i,
+                  "description": 'Story ' + i,
+                  "issuetype": {
+                     "name": 'Story'
+                  }
+            }
+         };
+
+         requestBodies.push(body); // Add the body to the array
+      }
+
+      // Function to make requests asynchronously
+      async function makeRequests() {
+         for (const body of requestBodies) {
+            try {
+                  await axios.post(`${process.env.API_URL}`, body, { headers });
+                  console.log('Request successful');
+            } catch (error) {
+                  console.error('Error making request:', error.message);
+            }
+         }
+      }
+
+      await makeRequests(); // Call makeRequests asynchronously
+
+      // Return a response indicating success
+      return NextResponse.json({ message: 'Requests completed successfully' });
+
    } catch (error) {
       return NextResponse.json({ 'Catch error': error });
    }
+
 }
+
