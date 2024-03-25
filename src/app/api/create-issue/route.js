@@ -6,7 +6,7 @@ export const POST = async (req, res) => {
 
    let body = {
       "fields": {
-         "customfield_10009": "Copy - Core+ | [CM] New Brand: SLH - Phase 1",
+         "customfield_10009": "Copy - New Brand phase 1",
          "project": {
             "key": "CP"
          },
