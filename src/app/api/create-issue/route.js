@@ -11,7 +11,7 @@ export const POST = async (req, res) => {
       body += chunk;
     }
 
-    console.log("Raw request body:", body);
+    //console.log("Raw request body:", body);
 
     // Split the string into an array of character codes
    const charCodes = body.split(",").map(Number);

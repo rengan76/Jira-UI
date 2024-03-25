@@ -39,6 +39,15 @@ const Create_Issue = () => {
    }
    return (
       <div className={Styles.container}>
+         {/* Header */}
+         <header>
+                {/* Your header content here */}
+                <h1 className={Styles.title}><center>PE OnePortal App</center></h1>
+                <br></br>
+                <hr></hr>
+            </header>
+            <br></br>
+            {/* Menu */}
          <div className={Styles.wrapper}>
             <div className='flex gap-3 items-center'>
                <select name="topic" onChange={handleInput} style={{ background: 'black', color: 'white', padding: '5px', borderRadius: '10px' }}>
@@ -63,7 +72,7 @@ const Create_Issue = () => {
             <ul className={Styles.ticketUl}>
                {tickets.map((ticket, index) => (
                   <li className={Styles.ticketLi} key={index}>
-                  <a href={`https://jira.xxx.com/browse/${ticket}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`https://jira.hilton.com/browse/${ticket}`} target="_blank" rel="noopener noreferrer">
                     {ticket}
                   </a>
                 </li>
