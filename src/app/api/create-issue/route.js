@@ -22,14 +22,16 @@ export const POST = async (req, res) => {
             }
          }
       };
+      const storyTickets = [];
 
       const epicResponse = await axios.post(process.env.API_URL, epicBody, { headers });
+
+      storyTickets.push(epicResponse.data.key);
 
       if (epicResponse.status !== 201 && epicResponse.status !== 200) {
          throw new Error('Failed to create Epic');
       }
 
-      const storyTickets = [];
 
       for (let i = 1; i < 3; i++) {
          const storyBody = {

@@ -2,8 +2,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Styles from './Styles.module.css';
+
 const Create_Issue = () => {
    const [userInput, setUserInput] = useState('Brand');
+   const [tickets, setTickets] = useState([]);
+
    const handleInput = (e) => {
       const value = e.target.value;
       console.log("change value", value)
@@ -17,8 +20,10 @@ const Create_Issue = () => {
       }
       console.log("user input", userInput)
       try {
-         const res = await axios.post('http://localhost:3000/api/create-issue', body)
-         console.log("Response", res)``
+         const res = await axios.post('http://localhost:3000/api/create-issue', body);
+         setTickets(res.data.data.storyTickets);
+         console.log("Response", res);
+        
       } catch (error) {
          console.log("catch error ", error)
       }
@@ -35,6 +40,18 @@ const Create_Issue = () => {
             </div>
             <button className='w-30 border border-slate-500 bg-slate-600 text-white p-2 rounded-md' onClick={handleEpic}>Create Epic and Stories</button>
          </div>
+
+      {/* Display ticket numbers */}
+      {tickets.length > 0 && (
+         <div className={Styles.ticketList}>
+            <h3 className={Styles.ticketHeader}>Tickets Created:</h3>
+            <ul className={Styles.ticketUl}>
+               {tickets.map((ticket, index) => (
+                  <li className={Styles.ticketLi} key={index}>{ticket}</li>
+               ))}
+            </ul>
+         </div>
+      )}
 
       </div>
 
