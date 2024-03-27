@@ -1,19 +1,26 @@
 .container {
 
-   margin-top: 70px;
+   margin-top: 10px;
 }
 
 .wrapper {
-   border: 1px solid red;
    width: 50%;
    margin: 0 auto;
-   padding: 10px;
+   padding: 20px;
    background: '#eeeee';
    border-radius: 20px;
    display: flex;
    justify-content: center;
    gap: 30px;
    align-items: center;
+   background-color: linear-gradient(to right, cyan, lightblue);
+ }
+
+.wrapper select, .wrapper input {
+   background-color: white !important;
+   color: black !important;
+   border-color: black !important;
+   border-width: 2px !important;
 }
 
 .ticketList {
@@ -39,3 +46,52 @@
 .ticketLi:last-child {
    border-bottom: none; /* Remove bottom border for last item */
 }
+
+.header {
+   background-color: #c42a2ae2; /* Background color of the header */
+   color: rgb(54, 147, 224); /* Text color of the header */
+   padding: 20px; /* Padding for the header */
+   text-align: center; /* Center align the text */
+}
+
+.title {
+   font-size: 36px; /* Adjust the font size as needed */
+
+}
+
+.ticketList {
+   /* Additional styles for the ticket list container */
+ }
+ 
+ .ticketHeader {
+   /* Additional styles for the ticket header */
+ }
+ 
+ .ticketGrid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust the column width as needed */
+   gap: 10px; /* Adjust the gap between grid items as needed */
+ }
+ 
+ .ticketItem {
+   /* Additional styles for each ticket item in the grid */
+ }
+ 
+ .ticketItem a {
+   /* Additional styles for the ticket links */
+ }
+ 
+ .ticketContainer {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+ }
+ 
+ .ticketLink {
+   padding: 5px 10px;
+   background-color: lightblue;
+   border-radius: 5px;
+   text-decoration: none;
+   color: black;
+ }
+ 
